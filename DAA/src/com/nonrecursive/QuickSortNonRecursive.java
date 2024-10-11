@@ -7,10 +7,9 @@ public class QuickSortNonRecursive {
     static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
-        System.out.println("Enter the No of elements : ");
+        System.out.println("Enter the number of elements: ");
         int n = sc.nextInt();
-        int[] arr = new int[n + 1];
-        arr = getArray(n + 1);
+        int[] arr = getArray(n);
         quickSortNonRecursive(arr, 0, arr.length - 1);
         printArray(arr);
     }
@@ -30,55 +29,54 @@ public class QuickSortNonRecursive {
                 printArray(arr);
                 System.out.println();
 
-                // Push subarrays to the stack for further sorting
-                stack.push(new int[]{start, pivotIndex});
-                stack.push(new int[]{pivotIndex + 1, end});
+                if (pivotIndex - 1 > start) {
+                    stack.push(new int[]{start, pivotIndex - 1});
+                }
+                if (pivotIndex + 1 < end) {
+                    stack.push(new int[]{pivotIndex + 1, end});
+                }
             }
         }
     }
 
-    // Partition method
     private static int partition(int[] arr, int low, int high) {
-        int pivot = low;
-        low++;
-        high--;
+        int pivot = arr[low];
+        int left = low + 1;
+        int right = high;
 
-        while (low <= high) {
-            while (arr[low] < arr[pivot]) {
-                low++;
+        while (left <= right) {
+            while (left <= right && arr[left] <= pivot) {
+                left++;
             }
-            while (arr[high] > arr[pivot]) {
-                high--;
+            while (left <= right && arr[right] > pivot) {
+                right--;
             }
-
-            if (low < high) {
-                swap(arr, low, high);
+            if (left < right) {
+                swap(arr, left, right);
             }
         }
+        swap(arr, low, right);
 
-        swap(arr, pivot, high); 
-        return high;
+        return right; 
     }
-
-    private static void swap(int[] arr, int low, int high) {
-        int temp = arr[low];
-        arr[low] = arr[high];
-        arr[high] = temp;
+    private static void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
     }
 
     private static int[] getArray(int n) {
         int[] arr = new int[n];
-        for (int i = 0; i < n - 1; i++) {
+        System.out.println("Enter the elements: ");
+        for (int i = 0; i < n; i++) {
             arr[i] = sc.nextInt();
         }
-        arr[n - 1] = Integer.MAX_VALUE;
         return arr;
     }
 
-
     private static void printArray(int[] arr) {
-        for (int i = 0; i < arr.length - 1; i++) {
-            System.out.print(arr[i] + " ");
+        for (int i : arr) {
+            System.out.print(i + " ");
         }
         System.out.println();
     }
