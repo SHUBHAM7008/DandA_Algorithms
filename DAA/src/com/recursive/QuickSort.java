@@ -3,72 +3,67 @@ package com.recursive;
 import java.util.Scanner;
 
 public class QuickSort {
-	static Scanner sc= new Scanner (System.in);
+	static Scanner sc = new Scanner(System.in);
+
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println("Enter the No of elements : ");
-				int n = sc.nextInt();
-		int[] arr = new int[n+1];
-		arr=getArray(n+1);
-		int low=0;
-		int high=arr.length-1;
-		QSort(arr,low,high);
-        printArray(arr);
+		System.out.println("Enter the number of elements: ");
+		int n = sc.nextInt();
+		int[] arr = getArray(n);
+		int low = 0;
+		int high = arr.length - 1;
+		QSort(arr, low, high);
+		printArray(arr);
 	}
 
+	// Method to take input from the user
 	private static int[] getArray(int n) {
-		// TODO Auto-generated method stub
-		int[] arr= new int[n];
-		for(int i=0;i<n-1;i++) {
-			arr[i]=sc.nextInt();
+		int[] arr = new int[n];
+		System.out.println("Enter the elements: ");
+		for (int i = 0; i < n; i++) {
+			arr[i] = sc.nextInt();
 		}
-		arr[n-1]=Integer.MAX_VALUE;
 		return arr;
-}
+	}
+
 	private static void printArray(int[] arr) {
-		// TODO Auto-generated method stub
-		for(int i=0;i<arr.length-1;i++) {
-			System.out.print(arr[i]+" ");
+		for (int i = 0; i < arr.length; i++) {
+			System.out.print(arr[i] + " ");
 		}
+		System.out.println();
 	}
-	private static void QSort(int[] arr,int low, int high) {
-		if(low<high) {
-			int j=partioning(arr,low,high);
-			printArray(arr);
-			System.out.println();
-			QSort(arr,low,j);
-			QSort(arr,j+1,high);
+
+	private static void QSort(int[] arr, int low, int high) {
+		if (low < high) {
+			int pivotIndex = partition(arr, low, high);
+			QSort(arr, low, pivotIndex - 1);  
+			QSort(arr, pivotIndex + 1, high); 
 		}
 	}
 
-	private static int partioning(int[] arr,int low, int high) {
-		// TODO Auto-generated method stub
-		int pivot=low;
-		low++;
-		high--;
-		while(low<high) {
-			while(arr[low]<arr[pivot]) {
-				low++;
+	private static int partition(int[] arr, int low, int high) {
+		int pivot = arr[low]; 
+		int left = low + 1;
+		int right = high;
+
+		while (left <= right) {
+			while (left <= right && arr[left] <= pivot) {
+				left++;
 			}
-			while(arr[high]>arr[pivot]) {
-				high--;
+			while (left <= right && arr[right] > pivot) {
+				right--;
 			}
-			
-			if(low<high) {
-				swap(arr,low,high);
+			if (left < right) {
+				swap(arr, left, right);
 			}
 		}
-		if(low>high)
-	     swap(arr,pivot,high);
-		return high;
-		//return j
-	}
 
-	private static void swap( int[] arr,int low, int high) {
-		// TODO Auto-generated method stub
-        int t =arr[low];
-        arr[low]=arr[high];
-        arr[high]=t;
-	}
+		swap(arr, low, right);
 
+		return right; 
+	}
+	private static void swap(int[] arr, int i, int j) {
+		int temp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = temp;
+	}
 }
