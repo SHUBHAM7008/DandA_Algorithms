@@ -1,6 +1,7 @@
 package com.greedymethods;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -20,7 +21,6 @@ class Job {
 
 		@Override
 		public int compare(Job o1, Job o2) {
-			// TODO Auto-generated method stub
 			return o2.profit - o1.profit;
 		}
 	};
@@ -28,14 +28,14 @@ class Job {
 public class JobSeq {
 
 	public static void main(String[] args) {
-		Job j1 = new Job(1,20,2);
-		Job j2 = new Job(2,15,2);
-		Job j3 = new Job(3,10,1);
-		Job j4 = new Job(4,5,3);
-		Job j5 = new Job(5,1,3);
+		Job j1 = new Job(1,100,2);
+		Job j2 = new Job(2,19,1);
+		Job j3 = new Job(3,27,2);
+		Job j4 = new Job(4,25,1);
+		Job j5 = new Job(5,15,3);
  
 		List<Job> jobs = Arrays.asList(j1,j2,j3,j4,j5);
-		       
+		Collections.sort(jobs,Job.comparator);        
         System.out.println("Result ::"+ TakeJobs(jobs));
 		printJobs(jobs);
 	}
@@ -54,6 +54,7 @@ public class JobSeq {
 		         }
 	         }
 		}
+        
         int result =0;
         for(int profit : jobtobedone) {
        	   result += profit;
